@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Monadelphous Hydration Tester</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: white;
+      color: #800000; /* Dark Red Text */
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      background-color: #b30000; /* Monadelphous Red */
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    header img {
+      height: 150px; /* Tripled from 50px */
+      margin-right: 2rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    label {
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="number"] {
+      padding: 0.6rem;
+      width: 100%;
+      max-width: 300px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border: 2px solid #b30000;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #b30000;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+
+    #result {
+      display: none;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      border-radius: 6px;
+      font-weight: bold;
+      max-width: 600px;
+    }
+
+    .green { background-color: #d4edda; color: #155724; }
+    .yellow { background-color: #fff3cd; color: #856404; }
+    .orange { background-color: #ffe5b4; color: #8a6d3b; }
+    .red { background-color: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://www.uwa.edu.au/-/media/faculties/ems/background-images/monadelphous-logo.jpg" alt="Monadelphous Logo">
+    <h1>Hydration Tester</h1>
+  </header>
+
+  <div>
+    <label for="sg">Enter Urine Specific Gravity (SG) Test Result:</label>
+    <input type="number" id="sg" step="0.001" min="1.000" max="1.050" placeholder="e.g. 1.015">
+    <button onclick="checkHydration()">Check Hydration Status</button>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    function checkHydration() {
+      const sg = parseFloat(document.getElementById('sg').value);
+      const resultBox = document.getElementById('result');
+
+      if (isNaN(sg) || sg < 1.000 || sg > 1.050) {
+        resultBox.textContent = "Please enter a valid SG value between 1.000 and 1.050.";
+        resultBox.className = 'red';
+        resultBox.style.display = 'block';
+        return;
+      }
+
+      let message = '';
+      let bannerClass = '';
+
+      if (sg >= 1.000 && sg <= 1.010) {
+        message = "✅ Well Hydrated - Continue drinking water as normal.";
+        bannerClass = 'green';
+      } else if (sg >= 1.011 && sg <= 1.020) {
+        message = "⚠️ Slightly Dehydrated - Drink 600ml of water immediately and 600ml every 30 mins until rehydrated.";
+        bannerClass = 'yellow';
+      } else if (sg >= 1.021 && sg <= 1.029) {
+        message = "⚠️ Significantly Dehydrated - Inform supervisor and drink approximately 600ml of water over 30 minutes. Thereafter, drink 150–250ml frequently.";
+        bannerClass = 'orange';
+      } else if (sg >= 1.030) {
+        message = "🚨 Severely Dehydrated - INFORM SUPERVISOR IMMEDIATELY. Drink 600ml over 30 minutes and 600ml every 30 minutes until adequately hydrated. Do not return to work until hydrated.";
+        bannerClass = 'red';
+      }
+
+      resultBox.textContent = message;
+      resultBox.className = bannerClass;
+      resultBox.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
